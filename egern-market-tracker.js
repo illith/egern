@@ -27,7 +27,7 @@ export default async function(ctx) {
   const [nasdaq, gold, oil, btc] = await Promise.all([
     fetchQuote('^IXIC', 'NASDAQ'),
     fetchQuote('GC=F', 'GOLD'),
-    fetchQuote('CL=F', 'OIL'),
+    fetchQuote('BZ=F', 'OIL'),
     fetchQuote('BTC-USD', 'BTC'),
   ]);
 
