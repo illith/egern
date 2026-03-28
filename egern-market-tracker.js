@@ -167,13 +167,13 @@ export default async function(ctx) {
       {
         type: 'stack',
         direction: 'row',
-        gap: 10,
+        gap: 8,
         children: [
           {
             type: 'stack',
             direction: 'column',
             flex: 1,
-            gap: 10,
+            gap: 8,
             children: [
               ...[items[0], items[2]].filter(Boolean).map(item => buildCard(item)),
             ],
@@ -182,7 +182,7 @@ export default async function(ctx) {
             type: 'stack',
             direction: 'column',
             flex: 1,
-            gap: 10,
+            gap: 8,
             children: [
               ...[items[1], items[3]].filter(Boolean).map(item => buildCard(item)),
             ],
@@ -196,8 +196,8 @@ export default async function(ctx) {
     return {
       type: 'stack',
       direction: 'column',
-      padding: [10, 12],
-      gap: 4,
+      padding: [8, 10],
+      gap: 2,
       backgroundColor: 'rgba(142,142,147,0.15)',
       borderRadius: 12,
       children: [
@@ -205,13 +205,13 @@ export default async function(ctx) {
           type: 'stack',
           direction: 'row',
           alignItems: 'center',
-          gap: 4,
+          gap: 3,
           children: [
-            { type: 'text', text: iconFor(item.name), font: { size: 'caption1' } },
+            { type: 'text', text: iconFor(item.name), font: { size: 'caption2' } },
             {
               type: 'text',
               text: item.name,
-              font: { size: 'caption1', weight: 'medium' },
+              font: { size: 'caption2', weight: 'medium' },
               textColor: '#8E8E93',
             },
             { type: 'spacer' },
@@ -226,14 +226,14 @@ export default async function(ctx) {
         {
           type: 'text',
           text: fmtPrice(item),
-          font: { size: 'title3', weight: 'bold', family: 'Menlo' },
+          font: { size: 'body', weight: 'bold', family: 'Menlo' },
           textColor: '#8E8E93',
-          minScale: 0.6,
+          minScale: 0.5,
         },
         {
           type: 'text',
           text: fmtChange(item),
-          font: { size: 'caption1', family: 'Menlo' },
+          font: { size: 'caption2', family: 'Menlo' },
           textColor: changeColor(item),
         },
       ],
