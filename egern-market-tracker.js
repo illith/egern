@@ -89,12 +89,6 @@ export default async function(ctx) {
       padding: 14,
       gap: 6,
       children: [
-        {
-          type: 'text',
-          text: '📊 Market Tracker',
-          font: { size: 'subheadline', weight: 'bold' },
-          textColor: '#8E8E93',
-        },
         ...items.map(item => ({
           type: 'stack',
           direction: 'row',
