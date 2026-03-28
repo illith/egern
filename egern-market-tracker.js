@@ -131,7 +131,7 @@ export default async function(ctx) {
   // 主屏幕中尺寸（默认）- 毛玻璃风格
   return {
     type: 'widget',
-    material: 'ultraThinMaterial',
+    backgroundMaterial: 'systemUltraThinMaterial',
     cornerRadius: 20,
     padding: 16,
     gap: 12,
