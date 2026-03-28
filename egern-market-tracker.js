@@ -95,7 +95,7 @@ export default async function(ctx) {
           children: [
             {
               type: 'text',
-              text: item.name === 'BTC' ? '₿' : item.name === 'NASDAQ' ? '📈' : item.name === 'GOLD' ? '🥇' : '🛢️',
+              text: item.name,
               font: { size: 'body' },
             },
             { type: 'spacer', flex: 1 },
