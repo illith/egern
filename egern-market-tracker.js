@@ -129,6 +129,7 @@ export default async function(ctx) {
   // 主屏幕中尺寸（默认）- 毛玻璃风格
   return {
     type: 'widget',
+    backgroundColor: 'rgba(255,255,255,0.12)',
     cornerRadius: 20,
     padding: 16,
     gap: 12,
@@ -139,7 +140,6 @@ export default async function(ctx) {
         alignItems: 'center',
         gap: 8,
         children: [
-          { type: 'text', text: iconFor(item.name), font: { size: 'title2' } },
           {
             type: 'text',
             text: item.name,
