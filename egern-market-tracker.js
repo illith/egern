@@ -142,29 +142,6 @@ export default async function(ctx) {
     padding: 16,
     gap: 12,
     children: [
-      {
-        type: 'stack',
-        direction: 'row',
-        alignItems: 'center',
-        gap: 6,
-        children: [
-          { type: 'text', text: '📊', font: { size: 'title3' } },
-          {
-            type: 'text',
-            text: 'Market Tracker',
-            font: { size: 'headline', weight: 'bold' },
-            textColor: '#E5E5EA',
-          },
-          { type: 'spacer' },
-          {
-            type: 'date',
-            date: new Date().toISOString(),
-            format: 'relative',
-            font: { size: 'caption1' },
-            textColor: '#8E8E93',
-          },
-        ],
-      },
       ...items.map(item => ({
         type: 'stack',
         direction: 'row',
