@@ -126,48 +126,46 @@ export default async function(ctx) {
     };
   }
 
-  // 主屏幕中尺寸（默认）- 毛玻璃风格
+  // 主屏幕中尺寸（默认）- 金融终端风格
   return {
     type: 'widget',
-    backgroundColor: 'rgba(255,255,255,0.12)',
-    cornerRadius: 20,
-    padding: 16,
-    gap: 12,
-    children: [
-      ...items.map(item => ({
-        type: 'stack',
-        direction: 'row',
-        alignItems: 'center',
-        gap: 8,
-        children: [
-          {
-            type: 'text',
-            text: item.name,
-            font: { size: 'body', weight: 'semibold' },
-            textColor: '#E5E5EA',
-            minWidth: 55,
-          },
-          { type: 'spacer' },
-          {
-            type: 'text',
-            text: fmtPrice(item),
-            font: { size: 'title3', weight: 'bold', family: 'Menlo' },
-            textColor: '#E5E5EA',
-            minScale: 0.5,
-            minWidth: 80,
-            textAlign: 'right',
-          },
-          {
-            type: 'text',
-            text: `${item.change >= 0 ? '▲' : '▼'}${Math.abs(item.changePct).toFixed(1)}%`,
-            font: { size: 'callout', weight: 'medium', family: 'Menlo' },
-            textColor: changeColor(item),
-            minWidth: 60,
-            textAlign: 'right',
-          },
-        ],
-      })),
-    ],
+    backgroundColor: '#000000',
+    cornerRadius: 8,
+    border: { color: '#333333', width: 1 },
+    padding: [12, 14],
+    gap: 0,
+    children: items.map((item, i) => ({
+      type: 'stack',
+      direction: 'row',
+      alignItems: 'center',
+      padding: [6, 0],
+      children: [
+        {
+          type: 'text',
+          text: item.name,
+          font: { size: 'caption1', family: 'Menlo' },
+          textColor: '#888888',
+          minWidth: 55,
+        },
+        { type: 'spacer' },
+        {
+          type: 'text',
+          text: fmtPrice(item),
+          font: { size: 'caption1', weight: 'bold', family: 'Menlo' },
+          textColor: '#cccccc',
+          minScale: 0.5,
+          textAlign: 'right',
+        },
+        {
+          type: 'text',
+          text: `${item.change >= 0 ? '+' : ''}${item.changePct.toFixed(2)}%`,
+          font: { size: 'caption1', family: 'Menlo' },
+          textColor: changeColor(item),
+          minWidth: 65,
+          textAlign: 'right',
+        },
+      ],
+    })),
   };
 
   function errorWidget(msg) {
