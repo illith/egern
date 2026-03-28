@@ -36,15 +36,13 @@ export default async function(ctx) {
   // 格式化价格
   function fmtPrice(item) {
     const p = item.price;
-    if (item.name === 'BTC') return '$' + p.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
     if (item.name === 'NASDAQ') return p.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-    return '$' + p.toFixed(2);
+    return '$' + p.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   }
 
   function fmtChange(item) {
     const sign = item.change >= 0 ? '+' : '';
-    if (item.name === 'BTC') return `${sign}${item.changePct.toFixed(1)}%`;
-    return `${sign}${item.change.toFixed(2)} (${sign}${item.changePct.toFixed(2)}%)`;
+    return `${sign}${item.changePct.toFixed(1)}%`;
   }
 
   function changeColor(item) {
