@@ -134,7 +134,9 @@ export default async function(ctx) {
     border: { color: '#333333', width: 1 },
     padding: [12, 14],
     gap: 0,
-    children: items.map((item, i) => ({
+    children: [
+      { type: 'spacer' },
+      ...items.map((item, i) => ({
       type: 'stack',
       direction: 'row',
       alignItems: 'center',
@@ -166,6 +168,8 @@ export default async function(ctx) {
         },
       ],
     })),
+      { type: 'spacer' },
+    ],
   };
 
   function errorWidget(msg) {
