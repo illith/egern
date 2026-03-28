@@ -170,14 +170,6 @@ export default async function(ctx) {
     ],
   };
 
-  function iconFor(name) {
-    if (name === 'BTC') return '₿';
-    if (name === 'NASDAQ') return '📈';
-    if (name === 'GOLD') return '🥇';
-    if (name === 'OIL') return '🛢️';
-    return '💹';
-  }
-
   function errorWidget(msg) {
     return {
       type: 'widget',
