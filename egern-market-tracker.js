@@ -134,11 +134,13 @@ export default async function(ctx) {
     };
   }
 
-  // 主屏幕中尺寸（默认）
+  // 主屏幕中尺寸（默认）- 毛玻璃风格
   return {
     type: 'widget',
+    backgroundColor: 'rgba(30,30,30,0.35)',
+    cornerRadius: 20,
     padding: 16,
-    gap: 10,
+    gap: 12,
     children: [
       {
         type: 'stack',
@@ -151,7 +153,7 @@ export default async function(ctx) {
             type: 'text',
             text: 'Market Tracker',
             font: { size: 'headline', weight: 'bold' },
-            textColor: '#8E8E93',
+            textColor: '#E5E5EA',
           },
           { type: 'spacer' },
           {
@@ -159,86 +161,44 @@ export default async function(ctx) {
             date: new Date().toISOString(),
             format: 'relative',
             font: { size: 'caption1' },
-            textColor: '#636366',
+            textColor: '#8E8E93',
           },
         ],
       },
-      // 2x2 网格布局
-      {
+      ...items.map(item => ({
         type: 'stack',
         direction: 'row',
+        alignItems: 'center',
         gap: 8,
         children: [
+          { type: 'text', text: iconFor(item.name), font: { size: 'title2' } },
           {
-            type: 'stack',
-            direction: 'column',
-            flex: 1,
-            gap: 8,
-            children: [
-              ...[items[0], items[2]].filter(Boolean).map(item => buildCard(item)),
-            ],
+            type: 'text',
+            text: item.name,
+            font: { size: 'body', weight: 'semibold' },
+            textColor: '#E5E5EA',
+            minWidth: 55,
+          },
+          { type: 'spacer' },
+          {
+            type: 'text',
+            text: fmtPrice(item),
+            font: { size: 'title3', weight: 'bold', family: 'Menlo' },
+            textColor: '#E5E5EA',
+            minScale: 0.5,
           },
           {
-            type: 'stack',
-            direction: 'column',
-            flex: 1,
-            gap: 8,
-            children: [
-              ...[items[1], items[3]].filter(Boolean).map(item => buildCard(item)),
-            ],
+            type: 'text',
+            text: `${item.change >= 0 ? '▲' : '▼'}${Math.abs(item.changePct).toFixed(1)}%`,
+            font: { size: 'callout', weight: 'medium', family: 'Menlo' },
+            textColor: changeColor(item),
+            minWidth: 55,
+            textAlign: 'right',
           },
         ],
-      },
+      })),
     ],
   };
-
-  function buildCard(item) {
-    return {
-      type: 'stack',
-      direction: 'column',
-      padding: [8, 10],
-      gap: 2,
-      backgroundColor: 'rgba(142,142,147,0.15)',
-      borderRadius: 12,
-      children: [
-        {
-          type: 'stack',
-          direction: 'row',
-          alignItems: 'center',
-          gap: 3,
-          children: [
-            { type: 'text', text: iconFor(item.name), font: { size: 'caption2' } },
-            {
-              type: 'text',
-              text: item.name,
-              font: { size: 'caption2', weight: 'medium' },
-              textColor: '#8E8E93',
-            },
-            { type: 'spacer' },
-            {
-              type: 'text',
-              text: item.change >= 0 ? '▲' : '▼',
-              font: { size: 'caption2' },
-              textColor: changeColor(item),
-            },
-          ],
-        },
-        {
-          type: 'text',
-          text: fmtPrice(item),
-          font: { size: 'body', weight: 'bold', family: 'Menlo' },
-          textColor: '#8E8E93',
-          minScale: 0.5,
-        },
-        {
-          type: 'text',
-          text: fmtChange(item),
-          font: { size: 'caption2', family: 'Menlo' },
-          textColor: changeColor(item),
-        },
-      ],
-    };
-  }
 
   function iconFor(name) {
     if (name === 'BTC') return '₿';
