@@ -49,28 +49,22 @@ export default async function(ctx) {
     return item.change >= 0 ? '#34C759' : '#FF3B30';
   }
 
-  // 锁屏小尺寸 - 一行四个品种
+  // 锁屏小尺寸 - 自然换行，放不下就下一行
   if (ctx.widgetFamily === 'accessoryRectangular') {
     const short = { 'NASDAQ': 'NQ', 'GOLD': 'GOLD', 'OIL': 'OIL', 'BTC': 'BTC' };
-    function lockPrice(item) {
-      const p = item.price;
-      if (item.name === 'NASDAQ') return p.toLocaleString('en-US', { maximumFractionDigits: 0 });
-      if (item.name === 'BTC') return '$' + Math.round(p).toLocaleString('en-US');
-      return '$' + p.toFixed(0);
-    }
     const text = items.map(i => {
       const n = short[i.name];
       const a = i.change >= 0 ? '▲' : '▼';
       const p = Math.abs(i.changePct).toFixed(1);
-      return `${n}${lockPrice(i)}${a}${p}%`;
-    }).join(' ');
+      return `${n} ${fmtPrice(i)} ${a}${p}%`;
+    }).join('  ');
     return {
       type: 'widget',
       children: [{
         type: 'text',
         text: text,
-        font: { size: 'caption2', weight: 'medium', family: 'Menlo' },
-        minScale: 0.3,
+        font: { size: 'caption1', weight: 'medium', family: 'Menlo' },
+        minScale: 0.4,
       }],
     };
   }
