@@ -52,6 +52,12 @@ export default async function(ctx) {
   // 锁屏小尺寸 - stack 布局，品种名固定左边
   if (ctx.widgetFamily === 'accessoryRectangular') {
     const short = { 'NASDAQ': 'NQ', 'GOLD': 'GOLD', 'OIL': 'OIL', 'BTC': 'BTC' };
+    function lockPrice(item) {
+      const p = item.price;
+      if (item.name === 'BTC') return '$' + Math.round(p).toLocaleString('en-US');
+      if (item.name === 'NASDAQ') return p.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+      return '$' + p.toFixed(0);
+    }
     return {
       type: 'widget',
       children: items.map(i => ({
@@ -63,21 +69,21 @@ export default async function(ctx) {
           {
             type: 'text',
             text: short[i.name] || i.name,
-            font: { size: 'caption1', weight: 'medium', family: 'Menlo' },
-            minWidth: 28,
+            font: { size: 'caption2', weight: 'medium', family: 'Menlo' },
+            minWidth: 24,
           },
           {
             type: 'text',
             text: `${i.change >= 0 ? '▲' : '▼'}${Math.abs(i.changePct).toFixed(1)}%`,
-            font: { size: 'caption1', weight: 'medium', family: 'Menlo' },
+            font: { size: 'caption2', weight: 'medium', family: 'Menlo' },
             textColor: changeColor(i),
-            minWidth: 35,
+            minWidth: 30,
           },
           {
             type: 'text',
-            text: fmtPrice(i),
-            font: { size: 'caption1', weight: 'medium', family: 'Menlo' },
-            minScale: 0.4,
+            text: lockPrice(i),
+            font: { size: 'caption2', weight: 'medium', family: 'Menlo' },
+            minScale: 0.5,
           },
         ],
       })),
