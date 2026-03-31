@@ -84,47 +84,111 @@ export default async function(ctx) {
     };
   }
 
-  // 主屏幕小尺寸
+  // 主屏幕小尺寸 - 2x2 网格布局
   if (ctx.widgetFamily === 'systemSmall') {
+    // 分成两列
+    const col1 = items.slice(0, 2);
+    const col2 = items.slice(2, 4);
     return {
       type: 'widget',
-      padding: 14,
-      gap: 6,
+      padding: 12,
+      gap: 4,
       children: [
-        ...items.map(item => ({
+        {
           type: 'stack',
           direction: 'row',
-          alignItems: 'center',
-          gap: 6,
+          gap: 8,
           children: [
             {
-              type: 'text',
-              text: item.name,
-              font: { size: 'body' },
+              type: 'stack',
+              direction: 'column',
+              gap: 4,
+              flex: 1,
+              children: col1.map(item => ({
+                type: 'stack',
+                direction: 'row',
+                alignItems: 'center',
+                gap: 4,
+                children: [
+                  {
+                    type: 'text',
+                    text: item.name,
+                    font: { size: 'caption1', weight: 'medium' },
+                    textColor: '#8E8E93',
+                    minWidth: 48,
+                  },
+                  { type: 'spacer', flex: 1 },
+                  {
+                    type: 'text',
+                    text: `${item.change >= 0 ? '▲' : '▼'}${Math.abs(item.changePct).toFixed(1)}%`,
+                    font: { size: 'caption1', weight: 'medium', family: 'Menlo' },
+                    textColor: changeColor(item),
+                  },
+                ],
+              })),
             },
-            { type: 'spacer', flex: 1 },
             {
-              type: 'text',
-              text: fmtPrice(item),
-              font: { size: 'body', weight: 'semibold', family: 'Menlo' },
-              textColor: '#8E8E93',
-            },
-            {
-              type: 'text',
-              text: `${item.change >= 0 ? '▲' : '▼'}${Math.abs(item.changePct).toFixed(1)}%`,
-              font: { size: 'caption1', weight: 'medium', family: 'Menlo' },
-              textColor: changeColor(item),
-              minWidth: 50,
-              textAlign: 'right',
+              type: 'stack',
+              direction: 'column',
+              gap: 4,
+              flex: 1,
+              children: col2.map(item => ({
+                type: 'stack',
+                direction: 'row',
+                alignItems: 'center',
+                gap: 4,
+                children: [
+                  {
+                    type: 'text',
+                    text: item.name,
+                    font: { size: 'caption1', weight: 'medium' },
+                    textColor: '#8E8E93',
+                    minWidth: 48,
+                  },
+                  { type: 'spacer', flex: 1 },
+                  {
+                    type: 'text',
+                    text: `${item.change >= 0 ? '▲' : '▼'}${Math.abs(item.changePct).toFixed(1)}%`,
+                    font: { size: 'caption1', weight: 'medium', family: 'Menlo' },
+                    textColor: changeColor(item),
+                  },
+                ],
+              })),
             },
           ],
-        })),
+        },
         {
-          type: 'date',
-          date: new Date().toISOString(),
-          format: 'relative',
-          font: { size: 'caption2' },
-          textColor: '#636366',
+          type: 'stack',
+          direction: 'row',
+          gap: 8,
+          children: [
+            {
+              type: 'stack',
+              direction: 'column',
+              gap: 4,
+              flex: 1,
+              children: col1.map(item => ({
+                type: 'text',
+                text: fmtPrice(item),
+                font: { size: 'body', weight: 'semibold', family: 'Menlo' },
+                textColor: '#ffffff',
+                minScale: 0.6,
+              })),
+            },
+            {
+              type: 'stack',
+              direction: 'column',
+              gap: 4,
+              flex: 1,
+              children: col2.map(item => ({
+                type: 'text',
+                text: fmtPrice(item),
+                font: { size: 'body', weight: 'semibold', family: 'Menlo' },
+                textColor: '#ffffff',
+                minScale: 0.6,
+              })),
+            },
+          ],
         },
       ],
     };
