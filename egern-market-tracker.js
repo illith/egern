@@ -51,7 +51,7 @@ export default async function(ctx) {
 
   // 锁屏小尺寸 - 一行一个品种
   if (ctx.widgetFamily === 'accessoryRectangular') {
-    const short = { 'NASDAQ': 'NQ', 'GOLD': 'GOLD', 'OIL': 'OIL', 'BTC': 'BTC' };
+    const short = { 'NASDAQ': 'NASDAQ', 'GOLD': 'GOLD', 'OIL': 'OIL', 'BTC': 'BTC' };
     return {
       type: 'widget',
       direction: 'column',
