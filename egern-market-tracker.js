@@ -49,41 +49,39 @@ export default async function(ctx) {
     return item.change >= 0 ? '#34C759' : '#FF3B30';
   }
 
-  // 锁屏小尺寸 - stack 布局，品种名固定左边
+  // 锁屏小尺寸 - 竖排，每行一个品种
   if (ctx.widgetFamily === 'accessoryRectangular') {
     const short = { 'NASDAQ': 'NQ', 'GOLD': 'GOLD', 'OIL': 'OIL', 'BTC': 'BTC' };
-    function lockPrice(item) {
-      const p = item.price;
-      if (item.name === 'BTC') return '$' + Math.round(p).toLocaleString('en-US');
-      if (item.name === 'NASDAQ') return p.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
-      return '$' + p.toFixed(0);
-    }
     return {
       type: 'widget',
+      direction: 'column',
+      gap: 0,
       children: items.map(i => ({
         type: 'stack',
         direction: 'row',
         alignItems: 'center',
-        gap: 2,
+        gap: 4,
         children: [
           {
             type: 'text',
             text: short[i.name] || i.name,
             font: { size: 'caption2', weight: 'medium', family: 'Menlo' },
-            minWidth: 24,
+            minWidth: 32,
+          },
+          { type: 'spacer', flex: 1 },
+          {
+            type: 'text',
+            text: fmtPrice(i),
+            font: { size: 'caption2', weight: 'semibold', family: 'Menlo' },
+            textColor: '#8E8E93',
           },
           {
             type: 'text',
             text: `${i.change >= 0 ? '▲' : '▼'}${Math.abs(i.changePct).toFixed(1)}%`,
             font: { size: 'caption2', weight: 'medium', family: 'Menlo' },
             textColor: changeColor(i),
-            minWidth: 30,
-          },
-          {
-            type: 'text',
-            text: lockPrice(i),
-            font: { size: 'caption2', weight: 'medium', family: 'Menlo' },
-            minScale: 0.5,
+            minWidth: 40,
+            textAlign: 'right',
           },
         ],
       })),
