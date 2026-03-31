@@ -13,7 +13,7 @@ export default async function(ctx) {
       const result = data.chart.result[0];
       const meta = result.meta;
       const closes = result.indicators.quote[0].close.filter(c => c != null);
-      const prevClose = closes.length >= 2 ? closes[closes.length - 2] : meta.previousClose;
+      const prevClose = closes.length >= 2 ? closes[closes.length - 2] : (meta.chartPreviousClose || meta.previousClose);
       const price = meta.regularMarketPrice;
       const change = price - prevClose;
       const changePct = (change / prevClose) * 100;
