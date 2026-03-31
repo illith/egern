@@ -49,23 +49,42 @@ export default async function(ctx) {
     return item.change >= 0 ? '#34C759' : '#FF3B30';
   }
 
-  // 锁屏小尺寸 - 自然换行，放不下就下一行
+  // 锁屏小尺寸 - 一行一个品种
   if (ctx.widgetFamily === 'accessoryRectangular') {
     const short = { 'NASDAQ': 'NQ', 'GOLD': 'GOLD', 'OIL': 'OIL', 'BTC': 'BTC' };
-    const text = items.map(i => {
-      const n = short[i.name];
-      const a = i.change >= 0 ? '▲' : '▼';
-      const p = Math.abs(i.changePct).toFixed(1);
-      return `${n} ${fmtPrice(i)} ${a}${p}%`;
-    }).join('  ');
     return {
       type: 'widget',
-      children: [{
-        type: 'text',
-        text: text,
-        font: { size: 'caption1', weight: 'medium', family: 'Menlo' },
-        minScale: 0.4,
-      }],
+      direction: 'column',
+      gap: 0,
+      children: items.map(i => ({
+        type: 'stack',
+        direction: 'row',
+        alignItems: 'center',
+        gap: 4,
+        children: [
+          {
+            type: 'text',
+            text: short[i.name] || i.name,
+            font: { size: 'caption2', weight: 'medium', family: 'Menlo' },
+            minWidth: 32,
+          },
+          { type: 'spacer', flex: 1 },
+          {
+            type: 'text',
+            text: fmtPrice(i),
+            font: { size: 'caption2', weight: 'semibold', family: 'Menlo' },
+            textColor: '#8E8E93',
+          },
+          {
+            type: 'text',
+            text: `${i.change >= 0 ? '▲' : '▼'}${Math.abs(i.changePct).toFixed(1)}%`,
+            font: { size: 'caption2', weight: 'medium', family: 'Menlo' },
+            textColor: changeColor(i),
+            minWidth: 40,
+            textAlign: 'right',
+          },
+        ],
+      })),
     };
   }
 
