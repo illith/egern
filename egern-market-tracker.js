@@ -49,18 +49,22 @@ export default async function(ctx) {
     return item.change >= 0 ? '#34C759' : '#FF3B30';
   }
 
-  // 锁屏小尺寸
+  // 锁屏小尺寸 - 紧凑格式，缩写品种名
   if (ctx.widgetFamily === 'accessoryRectangular') {
-    const lines = items.map(i =>
-      `${i.name} ${fmtPrice(i)} ${i.change >= 0 ? '▲' : '▼'}${Math.abs(i.changePct).toFixed(1)}%`
-    ).join('  ');
+    const short = { 'NASDAQ': 'NQ', 'GOLD': 'GOLD', 'OIL': 'OIL', 'BTC': 'BTC' };
+    const lines = items.map(i => {
+      const name = short[i.name] || i.name;
+      const arrow = i.change >= 0 ? '▲' : '▼';
+      const pct = Math.abs(i.changePct).toFixed(1);
+      return `${name} ${fmtPrice(i)} ${arrow}${pct}%`;
+    }).join(' ');
     return {
       type: 'widget',
       children: [{
         type: 'text',
         text: lines,
         font: { size: 'caption1', weight: 'medium', family: 'Menlo' },
-        minScale: 0.4,
+        minScale: 0.3,
       }]
     };
   }
