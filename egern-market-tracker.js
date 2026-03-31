@@ -103,40 +103,43 @@ export default async function(ctx) {
     };
   }
 
-  // 主屏幕小尺寸 - 一行一个品种
+  // 主屏幕小尺寸 - 一行一个品种，撑满高度
   if (ctx.widgetFamily === 'systemSmall') {
     return {
       type: 'widget',
       padding: 14,
-      gap: 2,
-      children: items.map(item => ({
-        type: 'stack',
-        direction: 'row',
-        alignItems: 'center',
-        gap: 6,
-        children: [
-          {
-            type: 'text',
-            text: item.name,
-            font: { size: 'title3', weight: 'medium' },
-          },
-          {
-            type: 'text',
-            text: fmtPrice(item),
-            font: { size: 'title3', weight: 'semibold', family: 'Menlo' },
-            textColor: '#8E8E93',
-          },
-          { type: 'spacer', flex: 1 },
-          {
-            type: 'text',
-            text: `${item.change >= 0 ? '▲' : '▼'}${Math.abs(item.changePct).toFixed(1)}%`,
-            font: { size: 'body', weight: 'medium', family: 'Menlo' },
-            textColor: changeColor(item),
-            minWidth: 50,
-            textAlign: 'right',
-          },
-        ],
-      })),
+      gap: 6,
+      children: [
+        ...items.map(item => ({
+          type: 'stack',
+          direction: 'row',
+          alignItems: 'center',
+          gap: 6,
+          children: [
+            {
+              type: 'text',
+              text: item.name,
+              font: { size: 'title3', weight: 'medium' },
+            },
+            {
+              type: 'text',
+              text: fmtPrice(item),
+              font: { size: 'title3', weight: 'semibold', family: 'Menlo' },
+              textColor: '#8E8E93',
+            },
+            { type: 'spacer', flex: 1 },
+            {
+              type: 'text',
+              text: `${item.change >= 0 ? '▲' : '▼'}${Math.abs(item.changePct).toFixed(1)}%`,
+              font: { size: 'body', weight: 'medium', family: 'Menlo' },
+              textColor: changeColor(item),
+              minWidth: 50,
+              textAlign: 'right',
+            },
+          ],
+        })),
+        { type: 'spacer', flex: 1 },
+      ],
     };
   }
 
